@@ -41,6 +41,11 @@ if exist(save_dir,'dir')~=7
     mkdir(save_dir)
 end
     
+% setting up the pause button
+h_pause=figure(97);
+btn = uicontrol('Style','checkbox','String','Pause after movie','FontSize',40,'Position',[20,20,1000,200]);
+%reset the checkbox
+btn.value=false;
 
 %% Run it
 keep_it_runnin=true;
@@ -105,6 +110,21 @@ while keep_it_runnin
         
         %increment the dye counter
         dye_ctr=dye_ctr+1;
+        
+        % check the pause button
+        try
+            if btn.Value
+                keyboard %pause the program using the debug
+                %reset the checkbox
+                btn.value=false;
+            end
+        catch
+            % setting up the pause button
+            h_pause=figure(97);
+            btn = uicontrol('Style','checkbox','String','Pause after movie','FontSize',40,'Position',[20,20,1000,200]);
+            %reset the checkbox
+            btn.value=false;
+        end
     end
     
     if  ~inf_loop
