@@ -20,11 +20,12 @@ numframes=20;
 
 %% setup the filenames and write the log file
 
-%the log filename
+%prepping the save_dir
 if save_dir(end)=='\'
    save_dir(end)=[];
 end
 
+%the log filename
 log_fname=[save_dir,filesep,'GNR_PL_Rot_log'];
 %setting up the file
 fid = fopen([log_fname,'.txt'], 'w');
