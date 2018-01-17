@@ -5,7 +5,7 @@ function RunExperiment_Ben()
 %% Control Panel
 
 % save directory
-save_dir='E:\Microscope Images\Data\Ben\12_18_17';
+save_dir='E:\Microscope Images\Data\Ben\1_17_18';
 
 % the base of the name of the movie
 nambase='mov';
@@ -20,10 +20,10 @@ rand_order=true;
 inf_loop=true;
 
 % the number of frames to record for each movie
-numframes=100;
+numframes=4000;
 
 % after how many movies should new dye solution be added
-addDyeafter=3;
+addDyeafter=2;
 
 % autofocus options
 AF_everymov=true;%autofocus before every movie
@@ -45,7 +45,7 @@ end
 h_pause=figure(97);
 btn = uicontrol('Style','checkbox','String','Pause after movie','FontSize',40,'Position',[20,20,1000,200]);
 %reset the checkbox
-btn.value=false;
+btn.Value=false;
 
 %% Run it
 keep_it_runnin=true;
@@ -102,11 +102,11 @@ while keep_it_runnin
             'degrees'])
         %write to screen
         disp(char(datetime))
-        disp(['Recording movie ',nambase,'_',num2str(mov_ctr),...
+        disp(['Recording movie ',nambase,'_',num2str(mov_ctr,'%03.f'),...
             '   at ',num2str(cur_ang)])
         
         %Record the movie!
-        RecordMovie([save_dir,filesep,nambase,'_',num2str(mov_ctr)],numframes);
+        RecordMovie([save_dir,filesep,nambase,'_',num2str(mov_ctr,'%03.f')],numframes);
         
         %increment the dye counter
         dye_ctr=dye_ctr+1;

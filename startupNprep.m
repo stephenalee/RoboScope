@@ -9,8 +9,8 @@ mmroot='C:\Program Files\Micro-Manager';
 
 
 % which devices?
-use_Micromanager = true;
-use_ThorlabsRotationStage = true;
+use_Micromanager = false;
+use_ThorlabsRotationStage = false;
 use_SyringePump = true;
 
 
@@ -76,8 +76,8 @@ if use_SyringePump
     Program_Pump(h_pump_silver,'add',0.155)
     
     % to run the programs on the pumps use the commands:
-    % h_pump_red.sendcmd('RUN'); %remove dye
-    % h_pump_silver.sendcmd('RUN'); %add dye
+%     h_pump_red.sendcmd('RUN'); %remove dye
+%     h_pump_silver.sendcmd('RUN'); %add dye
     
 end
 

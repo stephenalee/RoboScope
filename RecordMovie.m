@@ -128,7 +128,7 @@ if ~isempty(filename)
     options.message=false;
     % *note there might be a datatype problem here, if the movie isn't being
     % saved as a tiff stack check that it's an appropriate datatype
-    saveastiff(mov,[pathstr,filesep,fname,'.tif'],options);
+%     saveastiff(mov,[pathstr,filesep,fname,'.tif'],options);
 end
 
 end

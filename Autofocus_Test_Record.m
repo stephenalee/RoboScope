@@ -13,15 +13,16 @@
 %% Control Panel
 
 % save directory
-save_dir='~/Temp/';
+save_dir='E:\Microscope Images\Data\Ben\AF_Tests_1_16_18/';
 
-% the number of frames to record
-numframes=20;
+% the number of frames to record in each movie
+numframes=200;
 
 % z search range in um
-search_range = 5;
+search_range = 6;
+
 % number of z planes to check
-numsteps = 30;
+numsteps = 40;
 
 %% Setup
 %the global micromanager structure

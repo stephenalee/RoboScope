@@ -33,7 +33,7 @@ if confident_move
     %get the current angle
     cur_ang=h_AXC.GetPosition_Position(0);
     
-    while round(cur_ang,ang_prec)~=round(angle,ang_prec)
+    while mod(round(cur_ang,ang_prec),360)~=mod(round(angle,ang_prec),360)
         warning([num2str(round(cur_ang,ang_prec)),' ~= ',num2str(round(angle,ang_prec))])
         warning(['Rotation stage failed to accurately move to ',num2str(angle),...
             'deg, retrying'])

@@ -6,17 +6,17 @@ function GNR_PL_RotateNRecord()
 %% Control Panel
 
 % save directory
-save_dir='E:\Microscope Images\Data\Ben\11_27_17\GNR_PL_Rot';
+save_dir='E:\Microscope Images\Data\Ben\1_17_18\GNR_PL_Rot';
 
 % the base of the name of the movie
 nambase='GNRPLRotMov';
 
 % the angles at which to measure
-% angs=0:10:720;
-angs=0:30:180;
+angs=0:5:720;
+% angs=0:30:180;
 
 % the number of frames to record
-numframes=20;
+numframes=100;
 
 %% setup the filenames and write the log file
 
