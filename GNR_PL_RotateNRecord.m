@@ -35,7 +35,7 @@ fprintf(fid,['Log written at ',char(datetime),'\r\n\r\n']);
 fprintf(fid,'Filename \t Stage Angle \r\n');
 
 for ii=1:length(angs)
-   mov_names{ii}=[nambase,'_',num2str(ii)];
+   mov_names{ii}=[nambase,'_',num2str(ii,'%03.f')];
    
    fprintf(fid,[mov_names{ii},'\t ',num2str(angs(ii)),'\r\n']);
 end
