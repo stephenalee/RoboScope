@@ -27,6 +27,9 @@ catch
     fprintf(fid,'No successful communication with rotation stage \r\n');
 end
 
+%print the ROI info
+ fprintf(fid,['ROI = ',strrep(char(mm.core.getROI),'java.awt.Rectangle',''),'\r\n']);
+
 % '\r\n']);
 %%% the camera loop %%%
 try   
