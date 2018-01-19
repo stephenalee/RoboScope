@@ -73,9 +73,9 @@ if min_z<0; min_z=0; end
 zs=linspace(min_z,max_z,numsteps);
 
 %% Measure the data & calculate the score
-try 
-     %write to MM log
-   mm.core.logMessage(['Running AutofocusBen from z = ',num2str(min_z,4),' um  to  ',...
+try
+    %write to MM log
+    mm.core.logMessage(['Running AutofocusBen from z = ',num2str(min_z,4),' um  to  ',...
         'z = ',num2str(max_z,4),' um']);
     
     %initialize waitbar
@@ -87,7 +87,7 @@ try
     dataz=zeros(1,length(zs));%initialize the dataz vector
     for ii=1:length(zs)
         %update the waitbar
-        try;waitbar(ii/length(zs),h1);end      
+        try;waitbar(ii/length(zs),h1);end
         
         %move to the z position
         SetZPosition(zs(ii))
@@ -106,6 +106,26 @@ try
     if livewason
         mm.slm.setLiveMode(true);
     end
+    
+    % remove up to one outlier, by finding the datapoint that is the
+    % farthest from a moving mean with window of 5 points
+    outlyinds=isoutlier(dataz,'movmean',5);
+    if any(outlyinds)        
+        distmov=mean(abs(dataz-movmean(dataz,5)));
+        [~,outlyin]=max(distmov);
+        try
+            dataz(outlyin)=mean([dataz(outlyin-1),dataz(outlyin+1)]);
+        catch
+            try
+                dataz(outlyin)= dataz(outlyin-1);
+            catch
+                dataz(outlyin)= dataz(outlyin+1);
+            end
+        end
+        warning('Outlier removed from autofocus score data')
+    end
+    
+    
     
     %% fit to a Gaussian
     [~,max_pos]=max(dataz);
@@ -146,7 +166,7 @@ try
     r_squared=1-resnorm/sum((dataz-mean(dataz)).^2);
     
     % determine whether or not it's a good fit
-    GoodFit=r_squared>0.65 && exitflag>0;
+    GoodFit=r_squared>0.7 && exitflag>0 && ~any(fitted==lb|fitted==ub);
     
     %plot the fit results
     if plot_results
@@ -154,13 +174,6 @@ try
         zsfine=linspace(min(zs),max(zs),200);
         
         figure(99)
-        %     if subplt_swtcr==1
-        %         subplot(2,1,1)
-        %         subplt_swtcr=2;
-        %     elseif subplt_swtcr==2
-        %         subplot(2,1,2)
-        %         subplt_swtcr=1;
-        %     end
         plot(zs,dataz,'o','LineWidth',1.5','Color','b')
         hold on
         plot(zsfine,fitfun(fitted,zsfine),'LineWidth',2,'Color','r')

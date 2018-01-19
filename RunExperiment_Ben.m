@@ -116,14 +116,14 @@ while keep_it_runnin
             if btn.Value
                 keyboard %pause the program using the debug
                 %reset the checkbox
-                btn.value=false;
+                btn.Value=false;
             end
         catch
             % setting up the pause button
             h_pause=figure(97);
             btn = uicontrol('Style','checkbox','String','Pause after movie','FontSize',40,'Position',[20,20,1000,200]);
             %reset the checkbox
-            btn.value=false;
+            btn.Value=false;
         end
     end
     

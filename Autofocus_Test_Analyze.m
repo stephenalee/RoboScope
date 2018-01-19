@@ -10,11 +10,11 @@
 %% Control Panel
 
 % save directory
-save_dir='~/Temp/';
+save_dir='\\Chem-biteen24\e\Microscope Images\Data\Ben\AF_Tests_1_16_18';
 
 % number of frames to use.
 % to use the entire movie set numframes=[];
-numframes=[];
+numframes=3;
 
 % try fitting?
 do_fit = false;
@@ -54,12 +54,12 @@ for ii=1:length(zs)
     % update loading here to lnly load the portion of the movie that will
     % be analyzed
     
-    load([save_dir,filesep,fnames{ii}])
+    mov_io=matfile([save_dir,filesep,fnames{ii}],'Writable',false);
     
     if isempty(numframes)
-        imgdata = mov;
+        imgdata = double(mov_io.mov);
     else
-        imgdata = mov(:,:,1:numframes);
+        imgdata = double(mov_io.mov(:,:,1:numframes));
     end
     
     %%% put scoring metric here! %%%

@@ -122,8 +122,9 @@ if ~isempty(filename)
     %save the log file
     Ben_LogFile([pathstr,filesep,fname],numframes);
     
-    %save it as a .mat file
-    save([pathstr,filesep,fname],'mov');
+    %save it as a .mat file, using version 7.3 to ensure partial loading is
+    %available
+    save([pathstr,filesep,fname],'mov','-v7.3');
     %save as a tiff stack
     options.message=false;
     % *note there might be a datatype problem here, if the movie isn't being

@@ -5,6 +5,8 @@ function Autofocus_wrapper_single(smart_search)
 % smart_search is a Boolean determining whether or not to force a GoodFit
 % in both searches by expanding the search until a GoodFit is achieved
 
+global h_pump_silver h_pump_red
+
 %% Control Panel
 
 %units in um
@@ -19,15 +21,13 @@ plot_results=true;
 
 which_fitfun=222;
 
-%% Figure setup
-
-%the figure showing the two searches
-
-
 %% first search
+%attempt counter
+ctr=0;
 
 goodfit=false;
 while ~goodfit    
+    ctr=ctr+1;
     [goodfit,focus_z]=AutofocusM(search_range_1st,numsteps_1st,zpsf,numframes,plot_results,which_fitfun);    
     
     %if not doing a smart search, then bypass any potential looping
@@ -40,6 +40,19 @@ while ~goodfit
         %increase the search range and the number of steps
         search_range_1st=search_range_1st*1.2;
         numsteps_1st=numsteps_1st*1.2;
+    end
+    
+    if ctr>=3
+        try
+            disp(char(datetime))
+            disp('Adding dye')
+            h_pump_red.sendcmd('RUN'); %remove dye
+            h_pump_silver.sendcmd('RUN'); %add dye
+            %restart the counter but to 1
+            ctr=1;
+        catch
+            warning('Attempted to add dye due to multiple autofocus fails, but there was a problem')
+        end
     end
    
     set(gcf,'Position',[21   512   560   420]);   
