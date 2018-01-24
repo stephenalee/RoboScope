@@ -71,6 +71,9 @@ if min_z<0; min_z=0; end
 
 %the z vector
 zs=linspace(min_z,max_z,numsteps);
+%randomly rearrage the z planes so as to reduce the possibility of a
+%floatie or similar messing up the measurement
+zs=zs(randperm(length(zs)));
 
 %% Measure the data & calculate the score
 try
@@ -110,7 +113,7 @@ try
     % remove up to one outlier, by finding the datapoint that is the
     % farthest from a moving mean with window of 5 points
     outlyinds=isoutlier(dataz,'movmean',5);
-    if any(outlyinds)        
+    if any(outlyinds)
         distmov=mean(abs(dataz-movmean(dataz,5)));
         [~,outlyin]=max(distmov);
         try
@@ -122,23 +125,28 @@ try
                 dataz(outlyin)= dataz(outlyin+1);
             end
         end
+        beep
         warning('Outlier removed from autofocus score data')
     end
     
     
     
     %% fit to a Gaussian
+    % resort zs and dataz
+    [zs,inds]=sort(zs);
+    dataz=dataz(inds);
+    
     [~,max_pos]=max(dataz);
     %fit start and bounds
     if which_fitfun==111
-        starts=[range(dataz),zs(max_pos),zpsf,min(dataz)];
+        starts=[range(dataz),median(zs),zpsf,min(dataz)];
         lb=[range(dataz),min(zs),.1*zpsf,0.75*min(dataz)];
         ub=[1.5*range(dataz),max(zs),2*zpsf,max(dataz)];
     elseif which_fitfun==222
         %line calculation
         m=median(dataz(1:4)-dataz((end-3):end))/mean(zs(1:4)-zs((end-3):end));
         b=median(dataz([1:4,(end-3):end])-m*zs([1:4,(end-3):end]));
-        starts=[range(dataz),zs(max_pos),zpsf,b,m];
+        starts=[range(dataz),median(zs),zpsf,b,m];
         %bounds assuming that m & b are positive
         lb=[0.1*range(dataz),min(zs),.1*zpsf,0.1*b,0.1*m];
         ub=[1.5*range(dataz),max(zs),2*zpsf,2*b,2*m];
