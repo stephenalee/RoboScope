@@ -5,7 +5,7 @@ function RunExperiment_Ben()
 %% Control Panel
 
 % save directory
-save_dir='E:\Microscope Images\Data\Ben\1_17_18';
+save_dir='E:\Microscope Images\Data\Ben\1_27_18';
 
 % the base of the name of the movie
 nambase='mov';
@@ -26,8 +26,8 @@ numframes=4000;
 addDyeafter=2;
 
 % autofocus options
-AF_everymov=true;%autofocus before every movie
-AF_afterdye=false;%autofocus only after dye is added
+AF_everymov=false;%autofocus before every movie
+AF_afterdye=true;%autofocus only after dye is added
 
 AF_smartsearch=true;% use the smart search functionality in Autofocus_wrapper
 

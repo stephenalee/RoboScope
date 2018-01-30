@@ -24,10 +24,13 @@ which_fitfun=222;
 %% first search
 %attempt counter
 ctr=0;
+totalctr=0;
 
 goodfit=false;
 while ~goodfit    
     ctr=ctr+1;
+    totalctr=totalctr+1;
+    
     [goodfit,focus_z]=AutofocusM(search_range_1st,numsteps_1st,zpsf,numframes,plot_results,which_fitfun);    
     
     %if not doing a smart search, then bypass any potential looping
@@ -45,14 +48,18 @@ while ~goodfit
     if ctr>=3
         try
             disp(char(datetime))
-            disp('Adding dye')
-            h_pump_red.sendcmd('RUN'); %remove dye
-            h_pump_silver.sendcmd('RUN'); %add dye
+            disp('Adding dye for autofocus')
+%             h_pump_red.sendcmd('RUN'); %remove dye
+%             h_pump_silver.sendcmd('RUN'); %add dye
             %restart the counter but to 1
             ctr=1;
         catch
             warning('Attempted to add dye due to multiple autofocus fails, but there was a problem')
         end
+    end
+    if ~goodfit && totalctr>6
+        warning('Autofocus failed 6 times consecutively. Staying at the starting z plane')
+        break
     end
    
     set(gcf,'Position',[21   512   560   420]);   
