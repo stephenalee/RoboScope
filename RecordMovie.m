@@ -36,7 +36,7 @@ else
 end
 
 %intialize matrix
-mov=zeros(ROI.height,ROI.width,numframes);
+mov=zeros(ROI.height,ROI.width,numframes,'uint16');
 %change to correct image type
 try
     %see if there is a last image available
@@ -62,7 +62,8 @@ h1=waitbar(0);
 set(h1,'Position',[481.5000 507 270 56.2500])
 set(findall(h1,'type','text'),'Interpreter','none');
 waitbar(0,h1,['Recording ',fname]);
-
+mm.core.clearCircularBuffer
+mm.core.prepareSequenceAcquisition(mm.core.getCameraDevice);
 % start the acquisition (and importantly the circular buffer)
 % inputs ar: number of frames, interval between frames, Boolean re stopping
 % on overflow
@@ -72,10 +73,8 @@ tic;%for debugging purposes
 %initialize the frame counter
 ii = 1;
 %loop through until the the number of sequence is done
-while mm.core.isSequenceRunning || mm.core.getRemainingImageCount>0    
-    if mm.core.getRemainingImageCount>0       
-        %grab & remove the next image from the circular buffer
-        img = mm.core.popNextImage;
+while mm.core.isSequenceRunning || mm.core.getRemainingImageCount>0 
+    try img = mm.core.popNextImage;
                 
         %get the time for debugging purposes
         times(ii)=toc;
@@ -120,7 +119,7 @@ if ~isempty(filename)
     end
     
     %save the log file
-    Ben_LogFile([pathstr,filesep,fname],numframes);
+    Stephen_LogFile([pathstr,filesep,fname],numframes);
     
     %save it as a .mat file, using version 7.3 to ensure partial loading is
     %available

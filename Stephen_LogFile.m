@@ -1,4 +1,4 @@
-function Ben_LogFile(mov_filename,numframes)
+function Stephen_LogFile(mov_filename,numframes)
 %% Ben_LogFile
 % Writes a custom log file for a particular movie
 %
@@ -29,19 +29,19 @@ end
 
 try
     objtemp=round(get(deviceObj.Measurement(1),'Value')+0.164,1);
-    fprintf(fid,['Objective temp at: ',num2str(objtemp),' degrees C \r\n');
+    fprintf(fid,['Objective temp at: ',num2str(objtemp),' degrees C \r\n']);
 catch
     fprintf(fid,'No successful communication with osciliscope channel 1 \r\n');
 end
 try
     samptemp=round(get(deviceObj.Measurement(2),'Value'),1);
-    fprintf(fid,['Sample temp at: ',num2str(samptemp),' degrees C \r\n');
+    fprintf(fid,['Sample temp at: ',num2str(samptemp),' degrees C \r\n']);
 catch
     fprintf(fid,'No successful communication with osciliscope channel 2 \r\n');
 end
 try
     laserpower=setlaser(laser,'?P');
-    fprintf(fid,['Laser power set to ',laserpower,' mW \r\n']);
+    fprintf(fid,['Laser power set to ',laserpower(16:20),' mW \r\n']);
 catch
     fprintf(fid,'No successful communication with laser \r\n');
 end
